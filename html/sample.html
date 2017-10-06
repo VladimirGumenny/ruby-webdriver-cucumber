@@ -1,0 +1,581 @@
+
+<!-- Created by Viacheslav (Slava) Skryabin 01/01/2016-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Sample Page</title>
+
+    <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>-->
+    <!--<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+    <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>-->
+    <!--<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>-->
+    <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>-->
+    <!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
+    <script type="text/javascript" src="libs/jquery.min-2.2.0.js"></script>
+    <script type="text/javascript" src="libs/bootstrap.min-3.3.6.js"></script>
+    <script type="text/javascript" src="libs/jquery-ui.min-1.11.4.js"></script>
+    <script type="text/javascript" src="libs/jquery.validate.min-1.14.0.js"></script>
+    <script type="text/javascript" src="libs/angular.min-1.4.9.js"></script>
+    <link rel="stylesheet" href="libs/jquery-ui.min-1.11.4.css">
+    <link rel="stylesheet" href="libs/bootstrap.min-3.3.6.css">
+
+    <script type="text/javascript">
+      $.extend($.ui.dialog.prototype.options, {
+        create: function() {
+          var $this = $(this);
+          $this.parent().find('.ui-dialog-buttonpane button:first').focus();
+          $this.keypress(function(e) {
+            if( e.keyCode == $.ui.keyCode.ENTER ) {
+              $this.parent().find('.ui-dialog-buttonpane button:first').click();
+              return false;
+            }
+          });
+        }
+      });
+
+      var eventMessages = [];
+      $(function() {
+        var supportsPostMessage = window.postMessage && !window.opera;
+        var interval_id, last_hash;
+        if (supportsPostMessage) { // all browsers except opera and IE < 8
+          if (window.addEventListener){
+            addEventListener("message", listener, false);
+          }
+          else {
+            attachEvent("onmessage", listener);
+          }
+        }
+        else {
+          var delay = 1000;
+          interval_id = setInterval(function(){
+            var hash = document.location.hash,
+                    re = /^#?\d+&/;
+            if (hash !== last_hash && re.test(hash)) {
+              last_hash = hash;
+              listener({data: hash.replace(re, '')});
+            }
+          }, delay);
+        }
+      });
+
+      function listener(event) {
+        eventMessages.push(event);
+      };
+
+      $(function() {
+        $("#nameDialog").dialog({
+          autoOpen: false,
+          height: 350,
+          width: 350,
+          modal: true,
+          buttons: {
+            "Save": function() {
+              var name = "";
+              var firstName = $('#firstName').val();
+              var middleName = $('#middleName').val();
+              var lastName = $('#lastName').val();
+              if (firstName && firstName != "") {
+                name = firstName;
+              }
+              if (middleName && middleName != "") {
+                name = name.length > 0 ? name + " " + middleName : middleName;
+              }
+              if (lastName && lastName != "") {
+                name = name.length > 0 ? name + " " + lastName : lastName;
+              }
+              $("#name").attr("value", name);
+              $('#name').val(name).change();
+              $(this).dialog("close");
+            },
+            "Cancel": function() {
+              $(this).dialog("close");
+            }
+          },
+          close: function() {
+            $('#firstName').val("");
+            $('#middleName').val("");
+            $('#lastName').val("");
+          }
+        });
+        $("#name").click(function() {
+          $("#nameDialog").dialog("open");
+        });
+      });
+
+      var app = angular.module('samplePage', []);
+      app.controller('SampleController', function($scope) {
+        $scope.formData = {};
+        $scope.submit = function(event) {
+          if ($("#sampleForm").valid()) {
+            event.preventDefault();
+
+            // below won't work if different origins or opened in local file system. That's why window.postMessage framework was used instead
+//            var contactPersonName = $("iframe[name=additionalInfo]").contents().find('#contactPersonName').val();
+//            var contactPersonPhone = $("iframe[name=additionalInfo]").contents().find('#contactPersonPhone').val();
+
+            var contactPersonName = undefined;
+            var contactPersonPhone = undefined;
+            for (var index = 0; index < eventMessages.length; ++index) {
+              var key = eventMessages[index].data.key;
+              if (key && (key == "contactPersonName" || key == "contactPersonPhone")) {
+                $scope.formData[eventMessages[index].data.key] = eventMessages[index].data.value;
+              }
+            }
+            if (contactPersonPhone) {
+              $scope.formData.contactPersonPhone = contactPersonPhone;
+            }
+
+            $scope.formData.location = $("#location").text();
+            $scope.formData.currentDate = $("#currentDate").text();
+            $scope.formData.currentTime = $("#currentTime").text();
+
+            var thirdPartyAgreement = $("#thirdPartyAgreement").val();
+            if (thirdPartyAgreement) {
+              $scope.formData.thirdPartyAgreement = thirdPartyAgreement;
+            }
+//            processForm($scope);
+            showResult();
+          }
+        };
+        $scope.return = function(event) {
+          event.preventDefault();
+          showForm();
+        };
+      });
+      app.filter('splitCamelCase', function() {
+        return function(str) {
+          return str
+                  .replace(/([a-z])([A-Z])/g, '$1 $2')
+                  .replace(/\b([A-Z]+)([A-Z])([a-z])/, '$1 $2$3')
+                  .replace(/^./, function(str){ return str.toUpperCase(); })
+        }
+      });
+
+      app.filter('joinIfArray', function() {
+        return function(object) {
+          if ($.isArray(object)) {
+            return object.join(', ');
+          }
+          return object;
+        }
+      });
+
+      function processForm(context) {
+        var log = [];
+        angular.forEach(context.formData, function(value, key) {
+          var samplePage = $("#samplePage");
+          samplePage.push(key + ': ' + value);
+        }, log);
+      }
+
+      function showResult() {
+        $("#samplePageForm").fadeOut();
+        $("#samplePageResult").fadeIn();
+      }
+
+      function showForm() {
+        $("#samplePageResult").slideUp();
+        $("#samplePageForm").slideDown();
+      }
+
+      function getDate(date) {
+          var dd = date.getDate();
+          var mm = date.getMonth()+1; // january is 0!
+
+          var yyyy = date.getFullYear();
+          if(dd < 10){
+            dd ='0'+ dd
+          } 
+          if(mm < 10){
+              mm ='0'+ mm
+          }
+          var formattedDate = mm + '/' + dd + '/'+ yyyy;
+          return formattedDate;
+      }
+
+      function getTime(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        var offset = date.toString().match(/\(([A-Za-z\s].*)\)/)[1]
+
+        hours = hours % 12;
+        hours = hours ? hours : 12; // hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+ minutes : minutes;
+        var time = hours + ':' + minutes + ' ' + ampm + ' ' + offset;
+        return time;
+      }
+
+      function showButtonText() {
+        $("#clickMessage").text("Button is clicked!");
+      }
+
+      function thirdPartyAlert() {
+        var message;
+        var formData;
+        if (confirm("Do you accept third party agreement? Hit OK if accept.") == true) {
+          message = "You accepted third party agreement.";
+          formData = "accepted";
+        } else {
+          message = "You did not accept third party agreement.";
+          formData = "declined";
+        }
+        $("#thirdPartyAgreement").val(formData);
+        $("#thirdPartyResponseMessage").text(message);
+      }
+
+      function refresh() {
+        location.reload();
+      }
+
+      function iframeHover() {
+        $("#iframeHoverMessage").text("mouse detected over iframe");
+      }
+      
+      $(document).ready(function() {
+        $("#sampleForm").validate({
+          rules: {
+            username: {
+              minlength: 2
+            },
+            password: {
+              minlength: 5
+            },
+            confirmPassword: {
+              minlength: 5,
+              equalTo: "#password"
+            },
+            email: {
+              email: true
+            },
+            required: true,
+            agreedToPrivacyPolicy: {
+              required: true
+            }
+          },
+          messages: {
+            confirmPassword: {
+              equalTo: "Passwords do not match!"
+            },
+            agreedToPrivacyPolicy: {
+              required: " - Must check! "
+            }
+          },
+          focusInvalid: false,
+          invalidHandler: function(form, validator) {
+            if (!validator.numberOfInvalids())
+              return;
+            $('html, body').animate({
+              scrollTop: $(validator.errorList[0].element).offset().top
+            }, 1000);
+          }
+        });
+
+        $("#password").keypress(function() {
+          $("#confirmPassword").attr('disabled', false);
+        });
+        $("#password").focusout(function() {
+          if ($("[id=password]").val().length) {
+            $("#confirmPassword").attr('disabled', false);
+          } else {
+              $("#confirmPassword").attr('disabled', true);
+          }
+        });
+        $(function() {
+          setTimeout(function() {
+            $("#hiddenElement").fadeIn(1000);
+          }, 5000);
+          setTimeout(function() {
+            $("#buttonDisabled").removeAttr("disabled");
+          }, 5000);
+          var now = new Date();
+          $("#currentDate").text(getDate(now));
+          $("#currentTime").text(getTime(now));
+          try {
+            // below might break in some locales due to different JavaScript Date processing
+            var fullYear = now.getFullYear();
+            $("#dateOfBirth").datepicker({
+              changeMonth: true,
+              changeYear: true,
+              yearRange: '1899:' + fullYear
+            });
+          }
+          catch (err) {
+            $("#dateOfBirth").datepicker({
+              changeMonth: true,
+              changeYear: true,
+              yearRange: '1899:2016'
+            });
+          }
+        }); 
+      });
+    </script>
+
+    <style>
+      body {
+        overflow: scroll; 
+      }
+      .well [class^="hidden-"] {
+        margin: 5px 0px 0px 0px;
+      }
+
+      .form-container {
+        margin: 0px 15px 0px 15px;
+        background-image: url('libs/images/fabric_of_squares_gray.png');
+      }
+
+      .form-summary {
+        background-color:#ffffff;
+        background-image: url('libs/images/sos.png');
+      }
+
+      .large {
+        font-size: 115%;
+      }
+      .extra-large {
+        font-size: 130%;
+      }
+      legend {
+        margin-left: 15px;
+      }
+      a:hover {
+        background-color: yellow;
+      }
+      .multi-select {
+        width: 30%;
+      }
+      label.checkbox_radio {
+        margin-bottom: 0px;
+        font-weight: initial;
+      }
+      input[type="radio"] {
+        margin-right: 5px;
+        margin-left: 5px;
+      }
+      label.required:after {
+        color: red;
+        content: "*";
+      }
+      .error {
+        color: darkred;
+      }
+      .col-md-6:nth-child(2n+1):not(.clear-excluded) {
+        clear: left;
+      }
+
+      .ui-dialog {
+        font-size: 1em;
+      }
+
+      @media (min-width: 992px) {
+        .col-md-4:nth-child(3n+1) {
+          clear: left;
+        }
+        .md-padding-left {
+          padding-left: 5px;
+          margin-top: 20px;
+        }
+        textarea#address {
+          height: 82px;
+        }
+      }
+      @media (max-width: 992px) {
+        .col-sm-6:nth-child(2n+1):not(.clear-excluded), .agreedToPrivacyPolicy {
+          clear: left;
+        }
+      }
+    </style>
+  </head>
+  <body ng-app="samplePage" ng-controller="SampleController">
+    <header>
+    </header>
+    <div id="samplePageResult" style="display: none;">
+      <fieldset>
+        <legend class="applicationResult">Submitted sample form data</legend>
+        <section>
+          <div class="well form-container container-fluid">
+            <div class="row">
+              <div>
+                <div ng-repeat="(key, value) in formData" ng-if="key != 'confirmPassword'" class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                  <span>{{key | splitCamelCase}}</span>
+                  <b ng-if="key == 'password'" name="{{key}}" class="large">[entered]</b>
+                  <b ng-if="key != 'password'" name="{{key}}" class="large">{{value | joinIfArray}}</b>
+                </div>
+              </div>
+            </div>
+            <br/>
+            <button ng-click="return($event)" class="btn btn-primary" type="button" id="return" name="return">Return</button>
+          </div>
+        </section>
+      </fieldset>
+    </div>
+    <div id="samplePageForm">
+      <form ng-submit="submit($event)" name="sampleForm" id="sampleForm" action="" method="post">
+      <fieldset>
+      <legend class="application">Sample form with input elements</legend>
+        <section class="">
+          <div class="well container-fluid form-container">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <div class="well form-summary">
+                  <div class="title">
+                    <b id="personalInfo" class="extra-large">Application</b>
+                  </div>
+                  <div class="row">
+                    <div class="hidden-xs col-sm-4 col-md-12 col-lg-12">
+                      <span>Location</span>
+                      <b id="location" class="large">Los Altos, CA 94022</b>
+                    </div>
+                    <div class="hidden-xs col-sm-4 col-md-12 col-lg-12">
+                      <span>Date</span>
+                      <b id="currentDate" class="large"></b>
+                    </div>
+                    <div class="hidden-xs col-sm-4 col-md-12 col-lg-12">
+                      <span>Time</span>
+                      <b id="currentTime" class="large"></b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 md-padding-left">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 form-group">
+                  <label class="required" for="username">Username</label>
+                  <input ng-model="formData.username" required class="form-control" type="text" name="username" id="username" maxlength="40"/>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 form-group">
+                  <label class="required" for="email">Email</label>
+                  <input ng-model="formData.email" required class="form-control" type="email" name="email" id="email" maxlength="100"/>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 form-group">
+                  <label class="required" for="password">Password</label>
+                  <input ng-model="formData.password" required class="form-control" type="password" name="password" id="password" maxlength="40"/>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 form-group">
+                  <label class="required" for="confirmPassword">Confirm Password</label>
+                  <input ng-model="formData.confirmPassword" required class="form-control" type="password" name="confirmPassword" id="confirmPassword" maxlength="40" disabled/>
+                </div>
+              </div>
+            </div>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 form-group">
+                  <label class="required" for="name">Name</label>
+                  <input ng-model="formData.name" required class="form-control" type="text" name="name" id="name" maxlength="100"/>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 form-group">
+                  <label for="phone">Phone Number</label>
+                  <input ng-model="formData.phone" class="form-control" type="number" name="phone" id="phone" maxlength="20"/>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 form-group">
+                  <label for="dateOfBirth">Date of Birth</label>
+                  <input ng-model="formData.dateOfBirth" class="form-control" type="text" name="dateOfBirth" id="dateOfBirth" maxlength="100"/>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 form-group">
+                  <label for="countryOfOrigin">Country of Origin</label>
+                  <select ng-model="formData.countryOfOrigin" class="form-control" name="countryOfOrigin" id="countryOfOrigin">
+                    <option value="">Please Select...</option>
+                    <option value="Austria">Austria</option>
+                    <option value="Belarus">Belarus</option>
+                    <option value="Canada">Canada</option>
+                    <option value="China">China</option>
+                    <option value="France">France</option>
+                    <option value="Germany">Germany</option>
+                    <option value="India">India</option>
+                    <option value="Israel">Israel</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Japan">Japan</option>
+                    <option value="South Korea">South Korea</option>
+                    <option value="Lithuania">Lithuania</option>
+                    <option value="Monaco">Monaco</option>
+                    <option value="Netherlands">Netherlands (Holland)</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Russia">Russia</option>
+                    <option value="Ukraine">Ukraine</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="USA">United States of America</option>
+                    <option value="Uzbekistan">Uzbekistan</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 form-group">
+                  <label for="gender">Gender</label><br/>
+                  <label class="checkbox_radio">
+                    <input ng-model="formData.gender" type="radio" name="gender" value="male">Male</input>
+                  </label>
+                  <label class="checkbox_radio">
+                    <input ng-model="formData.gender" type="radio" name="gender" value="female">Female</input>
+                  </label>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 form-group">
+                  <label for="allowedToContact">Allowed to Contact?</label>
+                  <br/>
+                  <label class="checkbox_radio">
+                    <input ng-model="formData.allowedToContact" type="checkbox" id="allowedToContact" name="allowedToContact"><span> I allow to contact me via email or phone</span>
+                  </label>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 form-group">
+                  <label for="address">Address</label>
+                  <textarea ng-model="formData.address" class="form-control" name="address" id="address"></textarea>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 form-group clear-excluded">
+                  <label for="carMake">Car Make</label>
+                  <select ng-model="formData.carMake" class="form-control" name="carMake" id="carMake" multiple>
+                    <option value="Ford">Ford</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 form-group clear-excluded">
+                  <label for="additionalInfo">Additional Information</label><br/>
+                  <iframe name="additionalInfo" id="additionalInfo"  onmouseover="iframeHover()" src="iframe.html" width="370" height="82"></iframe>
+                  <br/><i><span id="iframeHoverMessage"></span></i>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 form-group agreedToPrivacyPolicy">
+                  <label class="required checkbox_radio">
+                    <input ng-model="formData.agreedToPrivacyPolicy" type="checkbox" id="agreedToPrivacyPolicy" name="agreedToPrivacyPolicy">
+                    <span> I have read and accept Privacy Policy.</span>
+                  </label>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 form-group">
+                  <button type="button" id="thirdPartyButton" onclick="thirdPartyAlert()">3rd party agreement (click)</button>
+                  <input name="thirdPartyAgreement" id="thirdPartyAgreement" type="hidden"/>
+                  <br/><span id="thirdPartyResponseMessage">&nbsp</span>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 form-group">
+                  <button type="button" id="relatedDocumentsButton" ondblclick="window.open('new_window.html')">Related documents (double-click)</button>
+                  <input name="relatedDocuments" id="relatedDocuments" type="hidden"/>
+                </div>
+              </div>
+              <div id="nameDialog" title="Name">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                  <label for="firstName">First Name</label>
+                  <input ng-model="formData.firstName" class="form-control" type="text" name="firstName" id="firstName" maxlength="100"/>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                  <label for="middleName">Middle Name</label>
+                  <input ng-model="formData.middleName" class="form-control" type="text" name="middleName" id="middleName" maxlength="100"/>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                  <label for="lastName">Last Name</label>
+                  <input ng-model="formData.lastName" class="form-control" type="text" name="lastName" id="lastName" maxlength="100"/>
+                </div>
+              </div>
+              <button class="btn btn-primary" type="submit" id="formSubmit" name="formSubmit">Submit</button>
+              <button class="btn" type="reset" id="formReset" name="formReset">Reset</button>
+              <button class="btn" type="button" id="formRefresh" name="formRefresh" onclick="refresh()">Refresh</button>
+            </div>
+          </div>
+        </section>
+      </fieldset>
+    </form>
+    </div>
+    <br/>
+    <br/>
+    <footer>
+    </footer>
+  </body>
+</html>
