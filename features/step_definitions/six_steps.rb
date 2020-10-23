@@ -14,7 +14,7 @@ require_relative '../support/hooks'
   assert(return_button.displayed?, "Return button is not displayed!")
 
   attachment=$driver.find_element(:xpath, "//*[@name='attachmentName']")
-  assert(attachment.text == "README - Copy.md", "Attachment is not present!")
+  assert(attachment.text == "README.md", "Attachment is not present!")
 
   name = $driver.find_element(:xpath, "//b[@name='name']")
   assert(name.text == $data["first_name"]+" "+$data["last_name"], "Name is not correct!")

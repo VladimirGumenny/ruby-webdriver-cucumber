@@ -19,7 +19,7 @@ And(/^I "([^"]*)" 3rd party agreement$/) do |arg|
   elsif arg == "dismis" or arg == "decline"
     $driver.switch_to.alert.dismiss
   else
-    puts "Error! Parameter is not correct. Actual is: #{arg}"
+    log "Error! Parameter is not correct. Actual is: #{arg}"
   end
     sleep 1
 
@@ -27,7 +27,7 @@ end
 
 And(/^I attach the file$/) do
   btn=$driver.find_element(:xpath, "//*[@id='attachment']")
-  btn.send_keys(Dir.pwd + "/README - Copy.md")
+  btn.send_keys(Dir.pwd + "/README.md")
 end
 
 And(/^I put phone "([^"]*)" and select gender "([^"]*)"$/) do |phone, sex|

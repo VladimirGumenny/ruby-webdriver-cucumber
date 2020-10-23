@@ -3,10 +3,10 @@ require_relative "../support/functions"
 Given(/^I open url "([^"]*)" and print page details$/) do |url|
   $driver.get(url)
   sleep 3
-  puts $driver.title
-  puts $driver.current_url
-  puts $driver.window_handles
-  puts $driver.page_source
+  log $driver.title
+  log $driver.current_url
+  log $driver.window_handles
+  log $driver.page_source
 
 
 end
@@ -135,7 +135,7 @@ And(/^I fill the rest fields$/) do
 
   related_documents=$driver.find_element(:xpath, "//button[contains(text(), 'documents')]")
   window1=$driver.window_handle
-  puts ("Window1 is: "+window1)
+  log ("Window1 is: "+window1)
   related_documents.click
   $driver.switch_to.window($driver.window_handles.last)
   $driver.close

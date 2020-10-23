@@ -5,41 +5,55 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="ruby-2.3.3-p222" jdkType="RUBY_SDK" />
+    <orderEntry type="jdk" jdkName="ruby-2.6.6-p146" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="appium_lib (v9.6.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="awesome_print (v1.8.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.3, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.15.4, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="childprocess (v0.7.1, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="chunky_png (v1.3.8, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="cucumber (v2.4.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="cucumber-core (v1.5.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="cucumber-wire (v0.0.1, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.3, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="faker (v1.8.4, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="ffi (v1.9.18, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="gherkin (v4.1.3, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="i18n (v0.8.6, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="json (v2.1.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="mail (v2.6.6, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="mime-types (v3.1, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="mime-types-data (v3.2016.0521, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="mini_portile2 (v2.2.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.12.1, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="multi_test (v0.1.2, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.8.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="power_assert (v1.1.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rake (v10.4.2, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec (v3.6.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.6.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.6.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.6.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.6.0, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubyzip (v1.2.1, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="selenium-cucumber (v3.1.5, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v3.5.1, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="test-unit (v3.2.5, ruby-2.3.3-p222) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="tomlrb (v1.2.4, ruby-2.3.3-p222) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activesupport (v6.0.3.4, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="appium_lib (v10.6.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="appium_lib_core (v3.11.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v2.1.4, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="childprocess (v3.0.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="chunky_png (v1.3.12, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.1.7, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber (v5.1.3, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-core (v8.0.1, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-create-meta (v2.0.2, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-cucumber-expressions (v10.3.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-gherkin (v15.0.2, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-html-formatter (v9.0.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-messages (v13.1.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-tag-expressions (v2.0.4, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-wire (v4.0.1, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.4.4, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="eventmachine (v1.2.7, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="faker (v2.14.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="faye-websocket (v0.11.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ffi (v1.13.1, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="i18n (v1.8.5, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="middleware (v0.1.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mini_portile2 (v2.4.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.14.2, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="multi_test (v0.1.2, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.10.10, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="power_assert (v1.2.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="protobuf-cucumber (v3.10.8, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec (v3.9.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.9.3, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.9.2, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.9.1, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.9.3, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubyzip (v2.3.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="selenium-cucumber (v3.1.5, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v3.142.7, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sys-uname (v1.2.1, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="test-unit (v3.3.6, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="thor (v1.0.1, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="thread_safe (v0.3.6, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="tomlrb (v1.3.0, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="tzinfo (v1.2.7, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="webdrivers (v4.4.1, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="websocket-driver (v0.7.3, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="websocket-extensions (v0.1.5, ruby-2.6.6-p146) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="zeitwerk (v2.4.0, ruby-2.6.6-p146) [gem]" level="application" />
   </component>
 </module>

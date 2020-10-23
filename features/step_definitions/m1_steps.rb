@@ -2,11 +2,11 @@ require_relative "../support/hooks"
 
 Given(/^I take an array$/) do
   $a=Array[3,7,4,2,2,1,4,4,9,1,5]
-  puts ("Initial Array is: \n #{$a}")
+  log ("Initial Array is: \n #{$a}")
 end
 
 And(/^I sort array$/) do
-    puts $a.sort
+    log $a.sort
 end
 
 And(/^I sort array and leave "([^"]*)" on the places$/) do |number|
@@ -31,12 +31,12 @@ And(/^I sort array and leave "([^"]*)" on the places$/) do |number|
     k=k+1
   end
 
-  puts ("New Array is: \n #{$a}. \nMake shure the #{number}s are on the places")
+  log ("New Array is: \n #{$a}. \nMake shure the #{number}s are on the places")
 end
 
 
 
 And(/^I delete "([^"]*)" from array$/) do |arg|
   $a.delete(arg.to_i)
-  puts $a
+  log $a
 end
